@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 
-public interface UserService extends UserDetailsService {
+public interface UserService  {
     AddUserReponse add(AddUserRequest request);
     UpdateUserResponse update(UpdateUserRequest request);
     DeleteUserResponse delete(long id);
