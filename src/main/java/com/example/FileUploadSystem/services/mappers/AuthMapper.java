@@ -1,4 +1,4 @@
-package com.example.FileUploadSystem.core.mappers;
+package com.example.FileUploadSystem.services.mappers;
 
 import com.example.FileUploadSystem.model.entities.User;
 import com.example.FileUploadSystem.services.dtos.request.auth.LoginRequest;
@@ -12,9 +12,9 @@ import org.mapstruct.factory.Mappers;
 public interface AuthMapper {
     AuthMapper INSTANCE = Mappers.getMapper(AuthMapper.class);
 
-    RegisterReponse responseFromRegisterResponse(User user);
-    User requestFromRegisterRequest(RegisterRequest request);
+    RegisterReponse authFromRegisterResponse(User user);
+    User authFromRegisterRequest(RegisterRequest request);
 
-    LoginResponse responseFromLoginReponse(User user);
-    User requestFromLoginRequest(LoginRequest request);
+    LoginResponse authFromLoginReponse(User user);
+    User authFromLoginRequest(LoginRequest request);
 }
