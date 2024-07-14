@@ -1,6 +1,7 @@
 package com.example.FileUploadSystem.services.conretes;
 
 import com.example.FileUploadSystem.core.exceptionhandling.exception.types.BusinessException;
+import com.example.FileUploadSystem.core.exceptionhandling.exception.types.FileStorageException;
 import com.example.FileUploadSystem.model.entities.File;
 import com.example.FileUploadSystem.repository.FileRepository;
 import com.example.FileUploadSystem.services.abstracts.FileService;
@@ -11,21 +12,41 @@ import com.example.FileUploadSystem.services.dtos.response.file.DeleteFileRespon
 import com.example.FileUploadSystem.services.dtos.response.file.GetFileResponse;
 import com.example.FileUploadSystem.services.dtos.response.file.UpdateFileResponse;
 import com.example.FileUploadSystem.services.mappers.FileMapper;
+import com.example.FileUploadSystem.services.rules.FileBusinessRule;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class FileServiceImpl implements FileService {
+    @Autowired
     private FileRepository fileRepository;
+    @Autowired
+    private FileBusinessRule fileBusinessRule;
+
+
     @Override
-    public AddFileResponse add(AddFileRequest request) {
-        File file = FileMapper.INSTANCE.fileFromAddFileRequest(request);
-        fileRepository.save(file);
-        AddFileResponse response = FileMapper.INSTANCE.fileFromAddFileResponse(file);
-        return response;
+    public AddFileResponse add(MultipartFile file) {
+        Path filePath = fileBusinessRule.uploadFile(file);
+
+        File newFile = new File();
+        newFile.setFileName(file.getOriginalFilename());
+        newFile.setFilePath(filePath.toString());
+        newFile.setUploadDate(LocalDate.now());
+        fileRepository.save(newFile);
+
+        return new AddFileResponse(newFile.getFileName(), newFile.getFilePath(), newFile.getUploadDate());
     }
 
     @Override

@@ -14,7 +14,8 @@ import com.example.FileUploadSystem.services.rules.UserBusinessRule;
 import lombok.RequiredArgsConstructor;
 
 
-
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -51,5 +52,10 @@ public class UserServiceImpl implements UserService {
         DeleteUserResponse response = UserMapper.INSTANCE.userFromDeleteResponse(user);
         userRepository.delete(user);
         return response;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return null;
     }
 }

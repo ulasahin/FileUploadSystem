@@ -6,11 +6,12 @@ import com.example.FileUploadSystem.services.dtos.response.file.AddFileResponse;
 import com.example.FileUploadSystem.services.dtos.response.file.DeleteFileResponse;
 import com.example.FileUploadSystem.services.dtos.response.file.GetFileResponse;
 import com.example.FileUploadSystem.services.dtos.response.file.UpdateFileResponse;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 public interface FileService {
-    AddFileResponse add(AddFileRequest request);
+    AddFileResponse add(MultipartFile request);
     UpdateFileResponse update(UpdateFileRequest request);
     DeleteFileResponse delete(long id);
     List<GetFileResponse> getAll();
