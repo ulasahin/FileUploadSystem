@@ -23,7 +23,7 @@ public class UserBusinessRule {
     public void emailShouldNotExist(String email){
         Optional<User> user = userRepository.findByEmail(email);
         if (user.isPresent()){
-            throw new BusinessException("Bu email daha önce kullanışmıştır.");
+            throw new BusinessException("Bu email daha önce kullanılmıştır.");
         }
     }
     public void authentication(LoginRequest request){
