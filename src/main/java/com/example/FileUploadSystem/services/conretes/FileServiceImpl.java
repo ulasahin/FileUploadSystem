@@ -14,21 +14,28 @@ import com.example.FileUploadSystem.services.dtos.request.file.UpdateFileRequest
 import com.example.FileUploadSystem.services.dtos.response.file.*;
 import com.example.FileUploadSystem.services.mappers.FileMapper;
 import com.example.FileUploadSystem.services.rules.FileBusinessRule;
+import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,6 +50,8 @@ public class FileServiceImpl implements FileService {
     @Autowired
     private FileShareRepository fileShareRepository;
 
+    @Value("${file.upload.dir}")
+    private String UPLOAD_DIR;
 
     @Override
     public AddFileResponse add(MultipartFile file) {
@@ -116,5 +125,14 @@ public class FileServiceImpl implements FileService {
                 .map(f -> new GetFileResponse(f.getId(),f.getFileName()
                         ,f.getFilePath(),f.getUploadDate()))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public byte[] dowloadFile(long id) throws IOException{
+
+        File file = fileRepository.findById(id).orElseThrow();
+        Path path = Path.of(file.getFilePath());
+
+        return Files.readAllBytes(path);
     }
 }

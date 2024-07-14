@@ -6,11 +6,16 @@ import com.example.FileUploadSystem.services.dtos.response.file.AddFileResponse;
 import com.example.FileUploadSystem.services.dtos.response.file.DeleteFileResponse;
 import com.example.FileUploadSystem.services.dtos.response.file.GetFileResponse;
 import com.example.FileUploadSystem.services.dtos.response.file.UpdateFileResponse;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -35,7 +40,7 @@ public class FileController {
     public List<GetFileResponse> getAll(){
         return fileService.getAll();
     }
-    @GetMapping("{id}")
+    @GetMapping("/get")
     @ResponseStatus(HttpStatus.OK)
     public GetFileResponse getById(@RequestParam long id){
         return fileService.getById(id);
@@ -49,6 +54,8 @@ public class FileController {
     public UpdateFileResponse update(@RequestBody UpdateFileRequest request){
         return fileService.update(request);
     }
-
-
+    @GetMapping(value = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public byte[] dowloadFile(@RequestParam long id) throws IOException {
+        return fileService.dowloadFile(id);
+    }
 }
