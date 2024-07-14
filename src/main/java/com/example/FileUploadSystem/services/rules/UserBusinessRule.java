@@ -17,8 +17,6 @@ import java.util.Optional;
 public class UserBusinessRule {
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private AuthenticationManager authenticationManager;
 
     public void emailShouldNotExist(String email){
         Optional<User> user = userRepository.findByEmail(email);
@@ -26,10 +24,7 @@ public class UserBusinessRule {
             throw new BusinessException("Bu email daha önce kullanılmıştır.");
         }
     }
-    public void authentication(LoginRequest request){
-        Authentication authentication =
-                authenticationManager.authenticate(
-                        new UsernamePasswordAuthenticationToken(request.getEmail(),request.getPassword()));
+    public void authentication(Authentication authentication){
         if(!authentication.isAuthenticated()){
             throw new BusinessException("E-posta ya da şifre yanlıştır.");
         }

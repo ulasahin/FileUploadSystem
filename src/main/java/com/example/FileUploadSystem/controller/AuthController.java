@@ -14,7 +14,7 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/login")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     public String login(@RequestBody LoginRequest request){
         return authService.login(request);
     }

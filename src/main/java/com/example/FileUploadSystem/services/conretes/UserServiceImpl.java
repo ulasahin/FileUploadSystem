@@ -14,6 +14,7 @@ import com.example.FileUploadSystem.services.rules.UserBusinessRule;
 import lombok.RequiredArgsConstructor;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,9 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+    @Autowired
     private UserRepository userRepository;
+    @Autowired
     private UserBusinessRule userBusinessRule;
 
     @Override
@@ -56,6 +59,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return null;
+        return userRepository.findByEmail(username).orElseThrow();
     }
 }

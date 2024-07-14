@@ -1,5 +1,6 @@
 package com.example.FileUploadSystem.model.entities;
 
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,7 +30,6 @@ public class File {
 
     private LocalDate uploadDate;
 
-    @OneToMany(mappedBy = "file")
+    @OneToMany(mappedBy = "file", cascade = CascadeType.REMOVE)//Bir File silinirse ilgili FileShare kolonuda silinir.
     private List<FileShare> fileShares;
-
 }

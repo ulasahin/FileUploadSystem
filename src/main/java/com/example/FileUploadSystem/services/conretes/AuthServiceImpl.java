@@ -38,7 +38,11 @@ public class AuthServiceImpl implements AuthService {
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow(()
                 -> new BusinessException("Böyle bir e-mail bulunamamıştır."));
 
-        userBusinessRule.authentication(request);
+        Authentication authentication =
+                authenticationManager.authenticate(
+                        new UsernamePasswordAuthenticationToken(request.getEmail(),request.getPassword()));
+        userBusinessRule.authentication(authentication);
+
         Map<String, Object> extraClaims = new HashMap<>();
         extraClaims.put("UserId", user.getId());
         extraClaims.put("UserEmail", user.getEmail());
