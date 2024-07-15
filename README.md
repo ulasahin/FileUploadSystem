@@ -1,6 +1,6 @@
 # FileUploadSystem
 
-A Spring Boot and Angular application for file uploading and management.
+A Spring Boot application for file uploading and management.
 
 ## About the Project
 
