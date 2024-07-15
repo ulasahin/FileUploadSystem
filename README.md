@@ -1,25 +1,26 @@
 # FileUploadSystem
 
-Dosya yükleme ve yönetimi için Spring Boot ve Angular uygulaması.
+A Spring Boot and Angular application for file uploading and management.
 
-## Proje Hakkında
+## About the Project
 
-FileUploadSystem, dosya yüklemek, yönetmek ve geri almak için basit ve verimli bir yol sağlayan bir web uygulamasıdır. Spring Boot kullanılmıştır.
+FileUploadSystem is a web application designed to provide a simple and efficient way to upload, manage, and retrieve files. It uses Spring Boot.
 
-## Özellikler
+## Features
 
-- Kullanıcı kimlik doğrulama ve yetkilendirme
-- Dosya yükleme ve indirme
-- Dosya meta verisi yönetimi
+- User authentication and authorization
+- File upload and download
+- File metadata management
 
-## Yapımında Kullanılan Teknolojiler
+## Built With
 
 - Java 21
-- Spring Boot Framework (Spring Security, Spring Boot Web, Spring Boot Data JPA vb.)
+- Spring Boot Framework (Spring Security, Spring Boot Web, Spring Boot Data JPA, etc.)
 - Mapstruct
 - Swagger
 - Lombok
 - JWT
 - PostgreSQL
+
 
 
