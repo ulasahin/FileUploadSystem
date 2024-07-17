@@ -1,41 +1,30 @@
 package com.example.FileUploadSystem.services.conretes;
 
 import com.example.FileUploadSystem.core.exceptionhandling.exception.types.BusinessException;
-import com.example.FileUploadSystem.core.exceptionhandling.exception.types.FileStorageException;
 import com.example.FileUploadSystem.model.entities.File;
 import com.example.FileUploadSystem.model.entities.FileShare;
 import com.example.FileUploadSystem.model.entities.User;
 import com.example.FileUploadSystem.repository.FileRepository;
 import com.example.FileUploadSystem.repository.FileShareRepository;
-import com.example.FileUploadSystem.repository.UserRepository;
 import com.example.FileUploadSystem.services.abstracts.FileService;
-import com.example.FileUploadSystem.services.dtos.request.file.AddFileRequest;
 import com.example.FileUploadSystem.services.dtos.request.file.UpdateFileRequest;
 import com.example.FileUploadSystem.services.dtos.response.file.*;
 import com.example.FileUploadSystem.services.mappers.FileMapper;
 import com.example.FileUploadSystem.services.rules.FileBusinessRule;
-import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.UrlResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,8 +34,6 @@ public class FileServiceImpl implements FileService {
     private FileRepository fileRepository;
     @Autowired
     private FileBusinessRule fileBusinessRule;
-    @Autowired
-    private UserRepository userRepository;
     @Autowired
     private FileShareRepository fileShareRepository;
 
@@ -58,7 +45,7 @@ public class FileServiceImpl implements FileService {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        User user = userRepository.findByEmail(username).orElseThrow();
+        User user = fileRepository.findByEmail(username).orElseThrow();
 
         Path filePath = fileBusinessRule.uploadFile(file,user.getId());
 
@@ -118,7 +105,7 @@ public class FileServiceImpl implements FileService {
     public List<GetFileResponse> getUserFiles() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        User user = userRepository.findByEmail(username).orElseThrow();
+        User user = fileRepository.findByEmail(username).orElseThrow();
         Long userId = user.getId();
         return fileShareRepository.findByUserId(userId).stream()
                 .map(FileShare::getFile)

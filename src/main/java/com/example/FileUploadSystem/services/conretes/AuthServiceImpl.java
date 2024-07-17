@@ -7,8 +7,6 @@ import com.example.FileUploadSystem.repository.UserRepository;
 import com.example.FileUploadSystem.services.abstracts.AuthService;
 import com.example.FileUploadSystem.services.dtos.request.auth.LoginRequest;
 import com.example.FileUploadSystem.services.dtos.request.auth.RegisterRequest;
-import com.example.FileUploadSystem.services.dtos.response.auth.RegisterReponse;
-import com.example.FileUploadSystem.services.mappers.AuthMapper;
 import com.example.FileUploadSystem.services.rules.UserBusinessRule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
