@@ -6,6 +6,7 @@ import com.example.FileUploadSystem.services.dtos.request.user.UpdateUserRequest
 import com.example.FileUploadSystem.services.dtos.response.user.AddUserReponse;
 import com.example.FileUploadSystem.services.dtos.response.user.DeleteUserResponse;
 import com.example.FileUploadSystem.services.dtos.response.user.UpdateUserResponse;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -18,12 +19,12 @@ public class UserController {
 
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
-    public AddUserReponse add(@RequestBody AddUserRequest request){
+    public AddUserReponse add(@RequestBody @Valid AddUserRequest request){
         return userService.add(request);
     }
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.CREATED)
-    public UpdateUserResponse update(@RequestBody UpdateUserRequest request){
+    public UpdateUserResponse update(@RequestBody @Valid UpdateUserRequest request){
         return userService.update(request);
     }
     @DeleteMapping("/delete")
