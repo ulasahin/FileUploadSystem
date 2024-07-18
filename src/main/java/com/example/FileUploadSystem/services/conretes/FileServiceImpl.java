@@ -6,6 +6,7 @@ import com.example.FileUploadSystem.model.entities.FileShare;
 import com.example.FileUploadSystem.model.entities.User;
 import com.example.FileUploadSystem.repository.FileRepository;
 import com.example.FileUploadSystem.repository.FileShareRepository;
+import com.example.FileUploadSystem.repository.UserRepository;
 import com.example.FileUploadSystem.services.abstracts.FileService;
 import com.example.FileUploadSystem.services.dtos.request.file.UpdateFileRequest;
 import com.example.FileUploadSystem.services.dtos.response.file.*;
@@ -43,10 +44,7 @@ public class FileServiceImpl implements FileService {
     @Override
     public AddFileResponse add(MultipartFile file) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        User user = fileRepository.findByEmail(username).orElseThrow();
-
+        User user = fileBusinessRule.authentication();
         Path filePath = fileBusinessRule.uploadFile(file,user.getId());
 
         File newFile = new File();
@@ -103,9 +101,7 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public List<GetFileResponse> getUserFiles() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        User user = fileRepository.findByEmail(username).orElseThrow();
+        User user = fileBusinessRule.authentication();
         Long userId = user.getId();
         return fileShareRepository.findByUserId(userId).stream()
                 .map(FileShare::getFile)
