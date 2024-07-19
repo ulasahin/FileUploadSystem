@@ -1,5 +1,6 @@
 package com.example.FileUploadSystem.services.rules;
 
+import com.example.FileUploadSystem.core.exceptionhandling.exception.problemdetails.ErrorMessages;
 import com.example.FileUploadSystem.core.exceptionhandling.exception.types.BusinessException;
 import com.example.FileUploadSystem.model.entities.User;
 import com.example.FileUploadSystem.repository.FileRepository;
@@ -41,7 +42,7 @@ public class FileBusinessRule {
         } catch (IOException e) {
             e.printStackTrace();
 
-            throw new BusinessException("Dosya depolanamadı. Hata: " + e.getMessage());
+            throw new BusinessException(ErrorMessages.FILE_CANNOT_SAVE + e.getMessage());
         }
     }
     public void deleteFile(Path filePath){
@@ -49,7 +50,7 @@ public class FileBusinessRule {
             Files.deleteIfExists(filePath);
         } catch (IOException e) {
             e.printStackTrace();
-            throw new BusinessException("Dosya fiziksel olarak silinemedi. Hata: " + e.getMessage());
+            throw new BusinessException(ErrorMessages.FILE_CANNOT_DELETE + e.getMessage());
         }
     }
     public User authentication(){

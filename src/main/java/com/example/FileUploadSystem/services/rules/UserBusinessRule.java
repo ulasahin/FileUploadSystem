@@ -1,5 +1,6 @@
 package com.example.FileUploadSystem.services.rules;
 
+import com.example.FileUploadSystem.core.exceptionhandling.exception.problemdetails.ErrorMessages;
 import com.example.FileUploadSystem.core.exceptionhandling.exception.types.BusinessException;
 import com.example.FileUploadSystem.model.entities.User;
 import com.example.FileUploadSystem.repository.UserRepository;
@@ -21,17 +22,17 @@ public class UserBusinessRule {
     public void emailShouldNotExist(String email){
         Optional<User> user = userRepository.findByEmail(email);
         if (user.isPresent()){
-            throw new BusinessException("Bu email daha önce kullanılmıştır.");
+            throw new BusinessException(ErrorMessages.EMAİL_USED);
         }
     }
     public void authentication(Authentication authentication){
         if(!authentication.isAuthenticated()){
-            throw new BusinessException("E-posta ya da şifre yanlıştır.");
+            throw new BusinessException(ErrorMessages.INVALID_PASS_EMAİL);
         }
     }
     public void passwordConfirmation(RegisterRequest request){
         if (!(request.getPassword().equals(request.getPasswordConfirm()))){
-            throw new BusinessException("Şifreler aynı değil.");
+            throw new BusinessException(ErrorMessages.NOT_SAME_PASS);
         }
     }
 }

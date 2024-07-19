@@ -16,11 +16,11 @@ public class AuthController {
 
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.CREATED)
-    public String login(@RequestBody @Valid LoginRequest request){
+    public String login(@RequestBody  LoginRequest request){
         return authService.login(request);
     }
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public void register(@RequestBody @Valid RegisterRequest request){authService.register(request);
+    public void register(@RequestBody  RegisterRequest request){authService.register(request);
     }
 }

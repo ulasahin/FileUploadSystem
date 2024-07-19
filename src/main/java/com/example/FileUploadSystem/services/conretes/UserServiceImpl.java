@@ -1,5 +1,6 @@
 package com.example.FileUploadSystem.services.conretes;
 
+import com.example.FileUploadSystem.core.exceptionhandling.exception.problemdetails.ErrorMessages;
 import com.example.FileUploadSystem.core.exceptionhandling.exception.types.BusinessException;
 import com.example.FileUploadSystem.services.mappers.UserMapper;
 import com.example.FileUploadSystem.model.entities.User;
@@ -40,7 +41,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UpdateUserResponse update(UpdateUserRequest request) {
         User existingUser = userRepository.findById(request.getId())
-                .orElseThrow(() -> new BusinessException("Güncellenmek istenen kullanıcı bulunamadı!"));
+                .orElseThrow(() -> new BusinessException(ErrorMessages.USER_NOT_FOUND_FOR_UPDATE));
 
         UserMapper.INSTANCE.userFromtUpdateUserRequest(request,existingUser);
         existingUser = userRepository.save(existingUser);
@@ -51,7 +52,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public DeleteUserResponse delete(long id) {
-        User user = userRepository.findById(id).orElseThrow(()-> new BusinessException("Böyle bir kullanıcı bulunamadı."));
+        User user = userRepository.findById(id).orElseThrow(()-> new BusinessException(ErrorMessages.USER_NOT_FOUND));
         DeleteUserResponse response = UserMapper.INSTANCE.userFromDeleteResponse(user);
         userRepository.delete(user);
         return response;

@@ -1,5 +1,6 @@
 package com.example.FileUploadSystem.services.conretes;
 
+import com.example.FileUploadSystem.core.exceptionhandling.exception.problemdetails.ErrorMessages;
 import com.example.FileUploadSystem.core.exceptionhandling.exception.types.BusinessException;
 import com.example.FileUploadSystem.core.security.service.JwtService;
 import com.example.FileUploadSystem.model.entities.User;
@@ -34,7 +35,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public String login(LoginRequest request) {
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow(()
-                -> new BusinessException("Böyle bir e-mail bulunamamıştır."));
+                -> new BusinessException(ErrorMessages.EMAİL_NOT_FOUND));
 
         Authentication authentication =
                 authenticationManager.authenticate(

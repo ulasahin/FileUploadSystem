@@ -1,5 +1,6 @@
 package com.example.FileUploadSystem.services.conretes;
 
+import com.example.FileUploadSystem.core.exceptionhandling.exception.problemdetails.ErrorMessages;
 import com.example.FileUploadSystem.core.exceptionhandling.exception.types.BusinessException;
 import com.example.FileUploadSystem.model.entities.File;
 import com.example.FileUploadSystem.model.entities.FileShare;
@@ -64,7 +65,7 @@ public class FileServiceImpl implements FileService {
     @Override
     public UpdateFileResponse update(UpdateFileRequest request) {
         File existingFile = fileRepository.findById(request.getId())
-                .orElseThrow(()-> new BusinessException("Böyle bir dosya bulunamadı."));
+                .orElseThrow(()-> new BusinessException(ErrorMessages.FILE_NOT_FOUND));
         FileMapper.INSTANCE.fileFromUpdateFileRequest(request,existingFile);
         existingFile = fileRepository.save(existingFile);
         UpdateFileResponse response = FileMapper.INSTANCE.fileFromUpdateFileResponse(existingFile);
@@ -74,7 +75,7 @@ public class FileServiceImpl implements FileService {
     @Override
     public DeleteFileResponse delete(long id) {
         File file = fileRepository.findById(id)
-                .orElseThrow(()-> new BusinessException("Böyle bir dosya bulunamadı."));
+                .orElseThrow(()-> new BusinessException(ErrorMessages.FILE_NOT_FOUND));
 
         Path filePath = Paths.get(file.getFilePath());
         fileBusinessRule.deleteFile(filePath);
@@ -94,7 +95,7 @@ public class FileServiceImpl implements FileService {
     @Override
     public GetFileResponse getById(long id) {
         File file = fileRepository.findById(id)
-                .orElseThrow(()-> new BusinessException("Böyle bir dosya bulunamadı."));
+                .orElseThrow(()-> new BusinessException(ErrorMessages.FILE_NOT_FOUND));
         GetFileResponse response = FileMapper.INSTANCE.fileFromGetFileResponse(file);
         return response;
     }
