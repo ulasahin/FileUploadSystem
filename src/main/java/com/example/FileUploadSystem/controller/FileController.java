@@ -55,6 +55,7 @@ public class FileController {
         return fileService.update(request);
     }
     @GetMapping(value = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @ResponseStatus(HttpStatus.OK)
     public byte[] dowloadFile(@RequestParam long id) throws IOException {
         return fileService.dowloadFile(id);
     }
